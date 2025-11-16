@@ -90,3 +90,4 @@ Combustible: Si te quedas sin combustible, no hay [...] los refuerzos. FIN. (Se 
 [Otra condición]: El usuario no se va a enterar, llega a la nave y se entera de todo.
 
 # Reglas del juego:
+
