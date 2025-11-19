@@ -364,7 +364,7 @@ def seleccionar_y_manejar_evento(dia_actual, DIAS_TOTALES_MISION):
     print(f"\n==================== DÍA {dia_actual} / {DIAS_TOTALES_MISION} ====================")
 
     # aqui empezamos y establecemos la lógica, para el dia 1 y el ultimo dia hay eventos fijos, los demás se darán de manera aleatoria
-    
+    #se eliminó el sistema de eventos aleatorios
     if dia_actual == 1:
         #EVENTO DE INICIO (Fijo) 
         delta_energia, delta_combustible, delta_oxigeno, delta_tripulacion = evento_inicio_bastardo()
@@ -374,31 +374,27 @@ def seleccionar_y_manejar_evento(dia_actual, DIAS_TOTALES_MISION):
         delta_energia, delta_combustible, delta_oxigeno, delta_tripulacion = evento_final_llegada_garime()
         
     else:
-        # EVENTOS ALEATORIOS 
-        print("Navegando por el espacio profundo. Evaluando situación...")
-
-        # Tenemos 6 eventos aleatorios
-        numero_evento = random.randint(1 , 6) 
         
-        if numero_evento == 1:
+        print("Navegando por el espacio profundo. Evaluando situación...")
+        
+        if dia_actual == 2:
             delta_energia, delta_combustible, delta_oxigeno, delta_tripulacion = evento_filtro_inka_kola()
 
-        elif numero_evento == 2:
+        elif dia_actual == 3:
             delta_energia, delta_combustible, delta_oxigeno, delta_tripulacion = evento_maniobra_mototaxi()
 
-        elif numero_evento == 3:
+        elif dia_actual == 4:
             delta_energia, delta_combustible, delta_oxigeno, delta_tripulacion = evento_papa_espacial()
 
-        elif numero_evento == 4:
+        elif dia_actual == 5:
             delta_energia, delta_combustible, delta_oxigeno, delta_tripulacion = evento_concierto_yola()
 
-        elif numero_evento == 5:
+        elif dia_actual == 6:
             delta_energia, delta_combustible, delta_oxigeno, delta_tripulacion = evento_terapia_contigo_peru()
 
-        elif numero_evento == 6:
+        elif dia_actual == 7:
             delta_energia, delta_combustible, delta_oxigeno, delta_tripulacion = evento_protocolo_violeta()
             
-        # Consumo base diario para eventos aleatorios (ya se añade dentro de cada función)
-            
+      
     # 3. Retornar los 4 deltas a main.py
     return delta_energia, delta_combustible, delta_oxigeno, delta_tripulacion
