@@ -7,24 +7,22 @@ print(
 
 # ahora comprobamos el estado del juego
 
-if estado_juego == "victoria":
-    print("VICTORIA, cumpliste tu objetivo felicidades :)")
-
-elif estado_juego == "derrota":
-    print("DERROTA, no lograste cumplir el objetivo, intentalo de nuevo :(")
-
-else:
-    print("ERROR, estado de juego no reconocido")
-
-# ahora se muestra el reporte final de los recursos
-print(
-    f"""Reporte final de la partida
-Energia: {energia}% 
-Combustible: {combustible}% 
-Oxigeno: {oxigeno}%
-Estado de la tripulación: {estado_tripulación}% 
-----------------------------------"""
-)
+def final_juego():
+    if estado_juego == "victoria":
+        print("VICTORIA, cumpliste tu objetivo felicidades :)")
+        
+    elif estado_juego == "derrota":
+        print("DERROTA, no lograste cumplir el objetivo, intentalo de nuevo :(")
+def mostrar_resultado():
+    # ahora se muestra el reporte final de los recursos
+    print(
+        f"""Reporte final de la partida
+    Energia: {energia}% 
+    Combustible: {combustible}% 
+    Oxigeno: {oxigeno}%
+    Estado de la tripulación: {estado_tripulación}% 
+    ----------------------------------"""
+    )
 
 # ahora se pregunta si quieren jugar de nuevo
 def preguntar_reinicio():

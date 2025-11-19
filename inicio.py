@@ -164,7 +164,7 @@ def mostrar_inicio():
 
         opcion = ""
         while opcion != "1" and opcion != "2" and opcion != "3":
-            opcion = input("Elige tu dificultad: 1, 2 o 3: ").strip()
+            opcion = input("Elige tu dificultad: 1, 2 o 3: ")
 
             if opcion != "1" and opcion != "2" and opcion != "3":
                 print("ERROR, debes elegir 1, 2 o 3")
@@ -178,27 +178,21 @@ def mostrar_inicio():
             print(
                 "Dificultad fácil seleccionada. Requisitos mínimos para ganar, 20% Energía, 20% Oxigeno"
             )
-            min_energia_ganar = 20
-            min_oxigeno_ganar = 20
-
+           
         elif opcion == "2":
             print(
                 "Dificultad media seleccionada. Requisitos mínimos para ganar, 40% Energía, 30% Oxigeno"
             )
-            min_energia_ganar = 40
-            min_oxigeno_ganar = 30
 
         elif opcion == "3":
             print(
                 "Dificultad dificil seleccionada. Requisitos mínimos para ganar, 60% Energía, 40% Oxigeno"
             )
-            min_energia_ganar = 60
-            min_oxigeno_ganar = 40
 
-        return energia, combustible, oxigeno, estado_tripulacion, min_energia_ganar, min_oxigeno_ganar
+        return energia, combustible, oxigeno, estado_tripulacion
 
 # los valores que se retornaron
-    (energia, combustible, oxigeno, estado_tripulacion , min_energia_ganar, min_oxigeno_ganar) = (
+    (energia, combustible, oxigeno, estado_tripulacion) = (
         seleccionar_dificultad()
     )
 mostrar_inicio()

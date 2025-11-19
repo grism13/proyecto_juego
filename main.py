@@ -15,7 +15,7 @@ def main():
         
         # Obtenemos los valores iniciales y la dificultad del módulo 'inicio'
         inicio.mostrar_introduccion()
-        energia, comb, oxigeno, estado_tripulacion , dificultad = inicio.obtener_recursos_iniciales()
+        energia, combustible, oxigeno, estado_tripulacion , opcion = inicio.obtener_recursos_iniciales()
         
         dia_actual = 1
         estado_juego = "jugando" 
@@ -25,33 +25,32 @@ def main():
         while estado_juego == "jugando":
             
             # 2a. Mostrar el estado actual
-            recursos.mostrar_estado_actual(energia, comb, oxigeno, moral, integ)
+            recursos.mostrar_estado_actual(energia, combustible, oxigeno, estado_tripulacion)
             
             # 2b. Pausa para el jugador
             input(f"\n--- Presiona ENTER para avanzar al Día {dia_actual} de {DIAS_TOTALES_MISION} ---")
             
             
             # 'eventos' nos devuelve los *cambios* (deltas)
-            d_e, d_c, d_o, d_m, d_i = eventos.seleccionar_y_manejar_evento(dia_actual)
+            delta_oxigeno, delta_combustible, delta_enegía, delta_tripulacion = eventos.seleccionar_y_manejar_evento(dia_actual)
             
             # Aplicamos los cambios (deltas) a nuestras variables principales
-            energia += d_e
-            comb += d_c
-            oxigeno += d_o
-            moral += d_m
-            integ += d_i
+            energia += delta_enegía
+            combustible += delta_combustible
+            oxigeno += delta_oxigeno
+            estado_tripulacion += delta_tripulacion
             
             # 4b. Limitar recursos (no pueden pasar de 100)
-            energia, comb, oxigeno, moral, integ = recursos.limitar_recursos(energia, comb, oxigeno, moral, integ)
+            energia, combustible, oxigeno, estado_tripulción = recursos.limitar_recursos(energia, combustible, oxigeno, estado_tripulacion)
             
-            estado_juego = recursos.verificar_derrota(energia, comb, oxigeno, moral, integ)
+            estado_juego = recursos.verificar_derrota(energia, combustible, oxigeno, estado_tripulacion)
             
             if estado_juego == "derrota":
                 break # Sale del bucle de partida
 
             # 6. REVISAR CONDICIÓN DE VICTORIA (Último día)
-            if dia_actual >= DIAS_TOTALES_MISION:
-                estado_juego = recursos.verificar_victoria_final(energia, moral, integ, dificultad)
+            elif estado_juego == "victoria":
+                
                 break # Sale del bucle de partida
             
             # 7. AVANZAR AL SIGUIENTE DÍA
@@ -59,7 +58,7 @@ def main():
             
         
         # El bucle de partida terminó (por victoria o derrota)
-        final.mostrar_resultado(estado_juego, energia, comb, oxigeno, moral, integ)
+        final.mostrar_resultado(estado_juego, energia, combustible, oxigeno, )
         
         
         jugar_de_nuevo = final.preguntar_reinicio()
