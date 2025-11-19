@@ -7,20 +7,21 @@ print(
 
 # ahora comprobamos el estado del juego
 
-def final_juego():
+def final_juego(estado_juego):
     if estado_juego == "victoria":
         print("VICTORIA, cumpliste tu objetivo felicidades :)")
         
     elif estado_juego == "derrota":
         print("DERROTA, no lograste cumplir el objetivo, intentalo de nuevo :(")
-def mostrar_resultado():
+
+def mostrar_resultado(energia,combustible,oxigeno,estado_tripulacion):
     # ahora se muestra el reporte final de los recursos
     print(
         f"""Reporte final de la partida
     Energia: {energia}% 
     Combustible: {combustible}% 
     Oxigeno: {oxigeno}%
-    Estado de la tripulación: {estado_tripulación}% 
+    Estado de la tripulación: {estado_tripulacion}% 
     ----------------------------------"""
     )
 
