@@ -10,10 +10,10 @@ print(
 
 def final_juego(estado_juego):
     if estado_juego == "victoria":
-        print("🎉 ¡VICTORIA! Cumpliste tu objetivo, felicidades :)")
+        print("¡VICTORIA! Cumpliste tu objetivo, felicidades :)")
         
     elif estado_juego == "derrota":
-        print("😢 ¡DERROTA! No lograste cumplir el objetivo, ¡inténtalo de nuevo! :(")
+        print("¡DERROTA! No lograste cumplir el objetivo, ¡inténtalo de nuevo! :(")
 
 def mostrar_resultado(estado_juego, energia, combustible, oxigeno, estado_tripulacion):
     # Llama a final_juego para mostrar el mensaje de victoria/derrota

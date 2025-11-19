@@ -14,11 +14,11 @@ def main():
         
         # 1. INICIO DEL JUEGO
         
-        # Obtenemos los valores iniciales y la dificultad del módulo 'inicio'
+        """Obtenemos los valores iniciales y la dificultad del módulo 'inicio'"""
         inicio.texto_introduccion()
         inicio.comienzo_juego()
 
-        # Corregido: seleccionar_dificultad ahora retorna 5 valores (incluyendo opcion)
+        
         energia, combustible, oxigeno, estado_tripulacion, opcion = inicio.seleccionar_dificultad()
         
         dia_actual = 1
