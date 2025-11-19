@@ -29,14 +29,14 @@ def main():
         # (aunque en la versión corregida de final.py esto no es tan crítico)
         final.final_juego(estado_juego) 
 
-        # 2. BUCLE PRINCIPAL DE LA PARTIDA
+        # BUCLE PRINCIPAL DE LA PARTIDA
         while estado_juego == "jugando":
             
-            # 2a. Mostrar el estado actual
+            # Mostrar el estado actual
             recursos.mostrar_estado_actual(energia, combustible, oxigeno, estado_tripulacion)
             
-            # 2b. Pausa para el jugador
-            input(f"\n--- Presiona ENTER para avanzar al Día {dia_actual} de {DIAS_TOTALES_MISION} ---")
+            # Pausa para el jugador
+            input(f"\n--- Presiona ENTER para avanzar al Día {dia_actual}---")
             
             
             # 'eventos' nos devuelve los *cambios* (deltas)
@@ -72,7 +72,7 @@ def main():
         jugar_de_nuevo = final.preguntar_reinicio()
 
     # Mensaje de despedida final
-    print("\nGracias por jugar 'Salvando al Bastardo'. Fin de la simulación.")
+    print("\nGracias por jugar nuestro juego de mierda: 'Salvando al Bastardo'. Fin de la simulación.")
 
 # --- Punto de entrada ---
 if __name__ == "__main__":

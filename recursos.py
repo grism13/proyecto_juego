@@ -1,10 +1,5 @@
 def mostrar_estado_actual(energia, combustible, oxigeno, estado_tripulacion):
-    text_energia = f"Energia = {energia}"
-    text_combustible = f"Combustible = {combustible}"
-    text_oxigeno = f"Oxigeno = {oxigeno}"
-    text_tripulacion = f"Estado Tripulacion = {estado_tripulacion}"
 
-    #Aqui esta el print de la animacion
     print(rf"""
     -------------------------->ESTADO ACTUAL DE LA NAVE<-------------------
     

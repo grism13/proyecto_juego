@@ -8,6 +8,7 @@ print(
 # ahora comprobamos el estado del juego
 
 def final_juego(estado_juego):
+def final_juego(estado_juego):
     if estado_juego == "victoria":
         print("🎉 ¡VICTORIA! Cumpliste tu objetivo, felicidades :)")
         
@@ -24,6 +25,7 @@ def mostrar_resultado(estado_juego, energia, combustible, oxigeno, estado_tripul
     Energia: {energia}% 
     Combustible: {combustible}% 
     Oxigeno: {oxigeno}%
+    Estado de la tripulación: {estado_tripulacion}% 
     Estado de la tripulación: {estado_tripulacion}% 
     ----------------------------------"""
     )
