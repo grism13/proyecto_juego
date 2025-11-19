@@ -1,15 +1,14 @@
-def mostrar_inicio():
-    import os
-    def clear_screen():
+import os
+def clear_screen():
         if os.name == 'nt':  # Check if the operating system is Windows
             os.system('cls')
         else:  # Assume Unix-like (Linux, macOS)
             os.system('clear')
 
     # Mostramos la historia y el contexto
-    def texto_introduccion():
+def texto_introduccion():
         print(
-        r"""
+        rf"""
 
     ____  _                           _     _        
     | __ )(_) ___ _ ____   _____ _ __ (_) __| | ___   
@@ -84,7 +83,7 @@ def mostrar_inicio():
 
         # Pequeño planeta/destino
         print(
-            r"""
+            rf"""
                 .
             .   |   .
           .     |     .
@@ -111,7 +110,7 @@ def mostrar_inicio():
 
         # Pequeños tripulantes
         print(
-            r"""
+            rf"""
               .         .
              / \       / \
             |   |     |   |
@@ -119,8 +118,7 @@ def mostrar_inicio():
             |   |     |   |
            /| ~ |\   /| ~ |\     
           / |   | \ / |   | \     
-         *  |___|  *  |___|  *  
-         o/
+         * |___|  * |___|  * o/
         /|      \o/        o
         / \      |        /|\
                 / \       / \        
@@ -135,26 +133,26 @@ def mostrar_inicio():
         """
         )
         input("\nPresiona ENTER para continuar...")
-    clear_screen()
-    texto_introduccion() 
+clear_screen()
+# texto_introduccion() # Se comenta ya que se llama desde main.py
 
     # iniciamos el juego
-    def comienzo_juego():
+def comienzo_juego():
         inicio = input("Selecciona el 1 para comenzar tu aventura por el espacio: ")
         while inicio != "1":
             print("Error, selecciona el 1")
             inicio = input("Selecciona el 1 para comenzar tu aventura por el espacio: ")
 
         print("Perfecto, iniciando tu propia aventura")
-    comienzo_juego()
+# comienzo_juego() # Se comenta ya que se llama desde main.py
 
-    print("")
+# print("")
 
     # elegimos la dificultad ajajaj
-    def seleccionar_dificultad():
+def seleccionar_dificultad():
 
         print(
-            """    ===== SELECCIONAR DIFICULTAD =====
+            rf"""    ===== SELECCIONAR DIFICULTAD =====
 
         1) :) Facil: Ganas con mínimo 20% de Oxígeno y 20% de Energía
         2) :/ Medio: Ganas con mínimo 30% de Oxígeno y 40% de Energía
@@ -176,23 +174,17 @@ def mostrar_inicio():
 
         if opcion == "1":
             print(
-                "Dificultad fácil seleccionada. Requisitos mínimos para ganar, 20% Energía, 20% Oxigeno"
+                rf"Dificultad fácil seleccionada. Requisitos mínimos para ganar, 20% Energía, 20% Oxigeno"
             )
            
         elif opcion == "2":
             print(
-                "Dificultad media seleccionada. Requisitos mínimos para ganar, 40% Energía, 30% Oxigeno"
+                rf"Dificultad media seleccionada. Requisitos mínimos para ganar, 40% Energía, 30% Oxigeno"
             )
 
         elif opcion == "3":
             print(
-                "Dificultad dificil seleccionada. Requisitos mínimos para ganar, 60% Energía, 40% Oxigeno"
+                rf"Dificultad dificil seleccionada. Requisitos mínimos para ganar, 60% Energía, 40% Oxigeno"
             )
 
-        return energia, combustible, oxigeno, estado_tripulacion
-
-# los valores que se retornaron
-    (energia, combustible, oxigeno, estado_tripulacion) = (
-        seleccionar_dificultad()
-    )
-mostrar_inicio()
+        return energia, combustible, oxigeno, estado_tripulacion, opcion

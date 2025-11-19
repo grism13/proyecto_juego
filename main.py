@@ -12,14 +12,22 @@ def main():
     jugar_de_nuevo = True
     while jugar_de_nuevo:
         
+        # 1. INICIO DEL JUEGO
         
         # Obtenemos los valores iniciales y la dificultad del módulo 'inicio'
-        inicio.mostrar_introduccion()
-        energia, combustible, oxigeno, estado_tripulacion , opcion = inicio.obtener_recursos_iniciales()
+        inicio.texto_introduccion()
+        inicio.comienzo_juego()
+
+        # Corregido: seleccionar_dificultad ahora retorna 5 valores (incluyendo opcion)
+        energia, combustible, oxigeno, estado_tripulacion, opcion = inicio.seleccionar_dificultad()
         
         dia_actual = 1
         estado_juego = "jugando" 
         # Estado puede ser "jugando", "derrota", "victoria"
+        
+        # Para evitar el error en la primera llamada de mostrar_resultado
+        # (aunque en la versión corregida de final.py esto no es tan crítico)
+        final.final_juego(estado_juego) 
 
         # 2. BUCLE PRINCIPAL DE LA PARTIDA
         while estado_juego == "jugando":
@@ -32,45 +40,40 @@ def main():
             
             
             # 'eventos' nos devuelve los *cambios* (deltas)
-            delta_oxigeno, delta_combustible, delta_enegía, delta_tripulacion = eventos.seleccionar_y_manejar_evento(dia_actual)
+            delta_energia, delta_combustible, delta_oxigeno, delta_tripulacion = eventos.seleccionar_y_manejar_evento(dia_actual, DIAS_TOTALES_MISION)
             
-            # Aplicamos los cambios (deltas) a nuestras variables principales
-            energia += delta_enegía
+            # 3. Aplicamos los cambios (deltas) a nuestras variables principales
+            energia += delta_energia
             combustible += delta_combustible
             oxigeno += delta_oxigeno
             estado_tripulacion += delta_tripulacion
             
-            # 4b. Limitar recursos (no pueden pasar de 100)
-            energia, combustible, oxigeno, estado_tripulción = recursos.limitar_recursos(energia, combustible, oxigeno, estado_tripulacion)
+            # 4a. Limitar recursos (no pueden pasar de 100 ni ser negativos)
+            energia, combustible, oxigeno, estado_tripulacion = recursos.limitar_recursos(energia, combustible, oxigeno, estado_tripulacion)
             
-            estado_juego = recursos.verificar_derrota(energia, combustible, oxigeno, estado_tripulacion)
+            # 5. REVISAR CONDICIÓN DE DERROTA/VICTORIA
+            # Corregido: enviar todos los argumentos necesarios
+            estado_juego = recursos.verificar_derrota(dia_actual, DIAS_TOTALES_MISION, opcion, energia, combustible, oxigeno, estado_tripulacion)
             
-            if estado_juego == "derrota":
+            # Si el estado_juego ya ha cambiado a "derrota" o "victoria"
+            if estado_juego != "jugando":
+                recursos.mostrar_estado_actual(energia, combustible, oxigeno, estado_tripulacion) # Mostrar estado final
                 break # Sale del bucle de partida
-
-            # 6. REVISAR CONDICIÓN DE VICTORIA (Último día)
-            elif estado_juego == "victoria":
-                
-                break # Sale del bucle de partida
             
-            # 7. AVANZAR AL SIGUIENTE DÍA
+            # 6. AVANZAR AL SIGUIENTE DÍA
             dia_actual += 1
             
         
-        # El bucle de partida terminó (por victoria o derrota)
-        final.mostrar_resultado(estado_juego, energia, combustible, oxigeno, )
+        # 7. FIN DE PARTIDA
+        # Corregido: llamar a mostrar_resultado con el estado_juego y los recursos finales
+        final.mostrar_resultado(estado_juego, energia, combustible, oxigeno, estado_tripulacion)
         
-        
+        # 8. PREGUNTAR REINICIO
         jugar_de_nuevo = final.preguntar_reinicio()
 
     # Mensaje de despedida final
     print("\nGracias por jugar 'Salvando al Bastardo'. Fin de la simulación.")
 
 # --- Punto de entrada ---
-# Esta línea asegura que la función main() se llame solo
-# cuando se ejecuta este archivo directamente.
 if __name__ == "__main__":
     main()
-
-
-    # asi es por ahora, las variables se establecieron en whiteboard de discord profe, la ia nos dio los algoritmos y estableció la lógica, nosotros solo sufrimos y fallabamos a cada rato

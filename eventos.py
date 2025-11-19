@@ -8,6 +8,10 @@ def clear_screen():
     else:  # Assume Unix-like (Linux, macOS)
         os.system('clear')
 
+# Consumo diario base de recursos (se restará cada día)
+CONSUMO_COMBUSTIBLE_DIARIO = -10
+CONSUMO_OXIGENO_DIARIO = -10 
+
 # primero colocamos todos los eventos, eventos fijos y eventos aleatorios
 
 """evento fijo del dia 1"""
@@ -15,18 +19,18 @@ def evento_inicio_bastardo():
     print("""
         "\n¡ALARMA! ¡ALARMA! ...o eso intentó la alarma.
     El sistema de altavoces emite un sonido patético, como un pollo.
-    print("Ahora estás en la nave, bienvenid@. Los sistemas están... ¿funcionando? Más o menos.
+    Ahora estás en la nave, bienvenid@. Los sistemas están... ¿funcionando? Más o menos.
     El comandante peruano ya está buscando su primera botella del día, para tu mala suerte no la consigue.
     La tripulación Down te saluda alegremente, ajena al peligro, porque bueno... Son downs.
           """)
     delta_energia = 0
-    delta_combustible = 0
-    delta_oxigeno = 0
+    delta_combustible = CONSUMO_COMBUSTIBLE_DIARIO # Consumo diario
+    delta_oxigeno = CONSUMO_OXIGENO_DIARIO # Consumo diario
     delta_tripulacion = -10  # Aquí defines la variable (aqui quitamos 10 puntos solo porque el comandante no consiguió la botella ajjaja)
     
     return delta_energia, delta_combustible, delta_oxigeno, delta_tripulacion
     #estas deltas se restarán directamente con las variables de recursos principal
-clear_screen()
+
 """evento fijo dia final"""
 def evento_final_llegada_garime():
     print("¡IA, ES ESO! ¡'GARIMÉ'!")
@@ -34,43 +38,44 @@ def evento_final_llegada_garime():
     print("El Comandante está llorando. O sudando Pisco. No estás segura.")
     print("Iniciando protocolos de descenso...")
 
-    # No hay deltas, recursos.py decidirá si esto es una victoria.
-    return 0, 0, 0, 0
-clear_screen()
+    # Se aplica el consumo final de combustible/oxígeno para el último día
+    delta_energia = 0
+    delta_combustible = CONSUMO_COMBUSTIBLE_DIARIO 
+    delta_oxigeno = CONSUMO_OXIGENO_DIARIO
+    delta_tripulacion = 0
+    
+    return delta_energia, delta_combustible, delta_oxigeno, delta_tripulacion
+
 """eventos alatorios"""
 
 def evento_filtro_inka_kola():
 
     #definicion de variables 
-    #(Con estas se sabe si se suma o resta un resultado)
     delta_energia = 0
     delta_oxigeno = 0
     delta_tripulacion = 0
     delta_combustible = 0
-    #eleccion almacena el 1 o 2 en texto
     eleccion = ""
 
     print("""
     ¡Alerta IA! Un microbio alienígena está en el filtro de O2.
     El Comandante insiste en que la Inka Kola que trajo es el antídoto.
     """)
-    #Si el usuario coloca un numero distinto a 1 o 2
-    #Entonces el bucle se repite
+    
     while eleccion != "1" and eleccion != "2":
         print(rf"""
         Opciones de la IA:
-        1. Purgar el filtro con la Inka Kola .
+        1. Purgar el filtro con la Inka Kola . (50% de error)
         2. Gastar energía para incinerar el filtro.     
     """)
         eleccion = input("Ayuda al peruanito a decidir (1 o 2): ")
     
-    #Aqui es donde se verifica la eficacia de las opciones
+    # Aqui es donde se verifica la eficacia de las opciones
     if eleccion == "1":
         print("Purgando con líquido dorado...")
-        #Numero random del 1 al 100
         resultado = random.randint(1, 100)
 
-        #en todos los casos siempre habrá una eleccion arriesgada, esta tendrá un 50% de magen de error
+        # 50% de magen de error
         if resultado <= 50:
             print("""
         ¡COMPLICACIÓN! ¡El azúcar se caramelizó y atascó todo!
@@ -87,21 +92,21 @@ def evento_filtro_inka_kola():
             delta_oxigeno += +15
             delta_tripulacion += +10
 
-    #Verificacion 2
+    # Verificacion 2
     elif eleccion == "2":
         print("""
         Incinerando el filtro. Es la opción aburrida, pero funciona.
         """)
         delta_energia += -15
         delta_tripulacion += -5
+    
+    # Se añade el consumo diario de recursos
+    delta_combustible += CONSUMO_COMBUSTIBLE_DIARIO
+    delta_oxigeno += CONSUMO_OXIGENO_DIARIO
 
-    #Si no es ni 1 ni 2, entonces hay un error
-    else:
-        print("Error: Comando no válido.")
-
-    #Retorna los valores
+    # Retorna los valores
     return delta_energia, delta_combustible, delta_oxigeno, delta_tripulacion
-clear_screen()
+
 def evento_maniobra_mototaxi():    
     delta_energia = 0
     delta_combustible = 0
@@ -117,7 +122,7 @@ def evento_maniobra_mototaxi():
     while eleccion != "1" and eleccion != "2":
         print("""
         Opciones de la IA:
-        1. Ceder el control al Comandante.
+        1. Ceder el control al Comandante. (50% de error)
         2. Usar la ruta larga y segura.
         """)
         eleccion = input("Ayuda al peruanito a decidir (1 o 2):")
@@ -126,34 +131,37 @@ def evento_maniobra_mototaxi():
             print("El Comandante toma los controles...")
             resultado = random.randint(1, 100)
             
+            # 50% Error
             if resultado <= 50: 
                 print("¡COMPLICACIÓN! ¡'Oe, tu nave tiene la culpa'!")
                 print("Intenta 'cerrar' a un asteroide. La maniobra gasta más combustible.")
                 
-                # Penalizaciones (las mismas del código original con 50% de error)
                 delta_combustible += -15
                 delta_tripulacion += -10
             
-            # 70% Éxito (Si el número es mayor a 50)
+            # 50% Éxito 
             else: 
                 print("¡'A lo 'Rápidos y Furiosos: Reto Garimé'!'")
                 print("Esquiva todo, ahorra combustible y la tripulación vitorea.")
-                # Recompensas (las mismas del código original con 50% de éxito)
-                delta_combustible += -5
+                
+                delta_combustible += -5 # Ahorro de combustible relativo
                 delta_tripulacion += +15
         
         elif eleccion == "2":
             print("Rodeando el campo... qué aburrido. Y qué gasto de combustible.")
             
-            # Penalización segura
-            delta_combustible += -25
+            delta_combustible += -25 # Penalización segura
             
         else:
             print("Error: Comando no válido.")
+
+    # Se añade el consumo diario de recursos
+    delta_combustible += CONSUMO_COMBUSTIBLE_DIARIO 
+    delta_oxigeno += CONSUMO_OXIGENO_DIARIO
             
     # Retorna los valores de delta
     return delta_energia, delta_combustible, delta_oxigeno, delta_tripulacion
-clear_screen()
+
 def evento_papa_espacial():
     
     delta_energia = 0
@@ -192,14 +200,17 @@ def evento_papa_espacial():
             La tripulación te mira con odio. Has matado a sus hijos.
             """)
             
-            # Penalización de la opción 2
-            delta_tripulacion += -25 
+            delta_tripulacion += -25 # Penalización de la opción 2
             
         else:
             print("Error: Comando no válido.")
             
+    # Se añade el consumo diario de recursos
+    delta_combustible += CONSUMO_COMBUSTIBLE_DIARIO
+    delta_oxigeno += CONSUMO_OXIGENO_DIARIO
+
     return delta_energia, delta_combustible, delta_oxigeno, delta_tripulacion
-clear_screen()
+
 def evento_concierto_yola():
 
     delta_energia = 0
@@ -217,7 +228,7 @@ def evento_concierto_yola():
     while eleccion != "1" and eleccion != "2":
         print("""
         Opciones:
-        1. Aprobar el concierto.
+        1. Aprobar el concierto. (50% de error)
         2. Mantener el protocolo de 'silencio en el espacio.
         """)
         eleccion = input("Ayuda al peruanito a decidir (1 o 2):")
@@ -226,6 +237,7 @@ def evento_concierto_yola():
             print("Poniendo 'La Gallina Turuleca' a todo volumen...")
             resultado = random.randint(1, 100)
             
+            # 50% Error
             if resultado <= 50: 
                 print("¡COMPLICACIÓN! Las vibraciones causaron un cortocircuito.")
                 print("La música se apaga de golpe. La tripulacion se desploma.")
@@ -245,9 +257,13 @@ def evento_concierto_yola():
             
         else:
             print("Error: Comando no válido.")
+
+    # Se añade el consumo diario de recursos
+    delta_combustible += CONSUMO_COMBUSTIBLE_DIARIO
+    delta_oxigeno += CONSUMO_OXIGENO_DIARIO
             
     return delta_energia, delta_combustible, delta_oxigeno, delta_tripulacion
-clear_screen()
+
 def evento_terapia_contigo_peru():
     #recuerda que el comandante está deprimido, le dió de sus ataques
     delta_energia = 0
@@ -264,7 +280,7 @@ def evento_terapia_contigo_peru():
     while eleccion != "1" and eleccion != "2":
         print("""
         Opciones:
-        1. Anular protocolo y poner 'Contigo Perú' a 120 decibelios.
+        1. Anular protocolo y poner 'Contigo Perú' a 120 decibelios. (50% de error)
         2. Falsificar la voz del Comandante (Opción Segura, gasta Energía).
         """)
         eleccion = input("Tienes que decidir (1 o 2):")
@@ -273,6 +289,7 @@ def evento_terapia_contigo_peru():
             print("¡Activando terapia musical peruana!...")
             resultado = random.randint(1, 100)
             
+            # 50% Error
             if resultado <= 50: 
                 print("¡COMPLICACIÓN! La canción lo hizo llorar más.")
                 print("En su rabieta, golpea la consola de O2 y causa una fuga.")
@@ -293,9 +310,13 @@ def evento_terapia_contigo_peru():
             
         else:
             print("Error: Comando no válido.")
+
+    # Se añade el consumo diario de recursos
+    delta_combustible += CONSUMO_COMBUSTIBLE_DIARIO
+    delta_oxigeno += CONSUMO_OXIGENO_DIARIO
             
     return delta_energia, delta_combustible, delta_oxigeno, delta_tripulacion
-clear_screen()
+
 def evento_protocolo_violeta():
 
     delta_energia = 0
@@ -314,7 +335,7 @@ def evento_protocolo_violeta():
         print("""
         Opciones:
         1. Seguir el manual. botar a Panchito (tripulacion muy baja, pero ahorra O2).
-        2. Ignorar el manual. Tratarlo agua de hojas de mango .
+        2. Ignorar el manual. Tratarlo agua de hojas de mango . (50% de error)
         """)
         eleccion = input("Ayuda al peruanito a decidir (1 o 2):")
 
@@ -333,6 +354,7 @@ def evento_protocolo_violeta():
             print("Bañando a Panchito en hoja de mango...")
             resultado = random.randint(1, 100)
             
+            # 50% Error
             if resultado <= 50: 
                 print("¡COMPLICACIÓN! ¡El hongo reacciona mal a el baño y libera esporas!")
                 print("El aire se llena de toxinas. Todos están enfermos.")
@@ -347,9 +369,12 @@ def evento_protocolo_violeta():
             
         else:
             print("Error: Comando no válido.")
+
+    # Se añade el consumo diario de recursos
+    delta_combustible += CONSUMO_COMBUSTIBLE_DIARIO
+    delta_oxigeno += CONSUMO_OXIGENO_DIARIO
             
     return delta_energia, delta_combustible, delta_oxigeno, delta_tripulacion
-clear_screen()
 
 
 """esta funcion va a manejar los eventos con respecto al día"""
@@ -357,7 +382,7 @@ def seleccionar_y_manejar_evento(dia_actual, DIAS_TOTALES_MISION):
 
     #estas "deltas son variables que van almacenando la acumulacion de puntos con respecto a cada recurso"
     
-
+    clear_screen()
     print(f"\n==================== DÍA {dia_actual} / {DIAS_TOTALES_MISION} ====================")
 
     # aqui empezamos y establecemos la lógica, para el dia 1 y el ultimo dia hay eventos fijos, los demás se darán de manera aleatoria
@@ -394,6 +419,8 @@ def seleccionar_y_manejar_evento(dia_actual, DIAS_TOTALES_MISION):
 
         elif numero_evento == 6:
             delta_energia, delta_combustible, delta_oxigeno, delta_tripulacion = evento_protocolo_violeta()
+            
+        # Consumo base diario para eventos aleatorios (ya se añade dentro de cada función)
             
     # 3. Retornar los 4 deltas a main.py
     return delta_energia, delta_combustible, delta_oxigeno, delta_tripulacion
