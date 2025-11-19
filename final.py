@@ -7,7 +7,7 @@ print(
 
 # ahora comprobamos el estado del juego
 
-def final_juego(estado_juego):
+
 def final_juego(estado_juego):
     if estado_juego == "victoria":
         print("🎉 ¡VICTORIA! Cumpliste tu objetivo, felicidades :)")
