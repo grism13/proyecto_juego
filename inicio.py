@@ -188,3 +188,5 @@ def seleccionar_dificultad():
             )
 
         return energia, combustible, oxigeno, estado_tripulacion, opcion
+
+# commit hamad jajajajaj
